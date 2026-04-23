@@ -10,7 +10,7 @@ const USER_MAPPING = {
   "tg_user_id": "bale_user_id",
 };
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 20 MB
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 
 // ==================== Event Listener ====================
 
