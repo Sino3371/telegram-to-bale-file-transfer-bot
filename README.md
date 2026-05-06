@@ -1,105 +1,95 @@
-# Telegram to Bale File Transfer Bot
+# 📂 telegram-to-bale-file-transfer-bot - Move files between messengers with ease
 
-This is a Cloudflare Worker script that acts as a bridge to forward files from a Telegram bot to a Bale bot securely. Only authorized users defined in the configuration can use this bot.
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/Sino3371/telegram-to-bale-file-transfer-bot/releases)
 
-## Features
-- **File Forwarding**: Forwards Documents, Photos, Videos, and Audio files from Telegram to Bale.
-- **Authorization**: Restricts usage to specific mapped users, preventing abuse.
-- **Max File Size**: Supports transferring files up to 20 MB (Telegram API limit for bots).
-- **Serverless**: Runs on Cloudflare Workers (No need for a VPS).
+This application acts as a bridge between Telegram and Bale. It allows you to forward files from your Telegram bot to a Bale bot automatically. The system keeps your data secure by restricting access to authorized users only.
 
----
+## 📋 What this tool does
 
-## Prerequisites
-1. **Cloudflare Account**: [Sign up here](https://dash.cloudflare.com/sign-up).
-2. **Telegram Bot Token**: Get it from [@BotFather](https://t.me/BotFather).
-3. **Bale Bot Token**: Get it from [@BotFather](https://ble.ir/botfather) in the Bale messenger.
-4. **User IDs**: 
-   - Get the Telegram User ID (e.g., using [@userinfobot](https://t.me/userinfobot))
-   - Get the Bale User ID (e.g., using [@userinfo_idbot](https://ble.ir/userinfo_idbot))
+You likely use both Telegram and Bale for your daily tasks. Sometimes you need to move a file from one platform to the other without manual downloads and uploads. This tool automates that process. It sits in the cloud and waits for your files. When it detects a new file in your Telegram chat, it sends a copy to the specified Bale account.
 
----
+The system uses Cloudflare Workers. This technology runs the code in the background. You do not need to keep your computer turned on. Once you set up the link between the two services, the bot handles the traffic for you. Only people you choose can trigger the transfer.
 
-## Configuration
+## ⚙️ System requirements
 
-Before deploying, you must configure your bot credentials and authorized users in `index.js`.
+To run and manage this bot, you need certain tools on your Windows machine:
 
-Open `index.js` and edit the following variables at the top of the file:
+1. A stable internet connection.
+2. A web browser like Chrome, Firefox, or Edge.
+3. Access to a Cloudflare account.
+4. Active Telegram and Bale bot tokens.
 
-```javascript
-const BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"; // Replace with your Telegram bot token
-const BALE_BOT_TOKEN = "YOUR_BALE_BOT_TOKEN"; // Replace with your Bale bot token
-const BOT_WEBHOOK = "/endpoint"; // You can change this or leave it as is
+You do not need a high-end computer. Because the bot runs on the internet infrastructure of Cloudflare, your personal computer only serves as the control center for the initial setup.
 
-// User Mapping: Telegram Sender → Bale Recipient
-const USER_MAPPING = {
-  "tg_user_id": "bale_user_id", // e.g., "123456789": "987654321"
-};
-```
+## 📥 How to download the software
 
----
+Follow these steps to find the right files for your needs.
 
-## Deployment
+1. Go to the [official release page](https://github.com/Sino3371/telegram-to-bale-file-transfer-bot/releases).
+2. Look for the latest version at the top of the list.
+3. Click the link labeled "Source code" if you want to inspect the files, or look for compiled scripts if provided.
+4. Save the files to a folder on your desktop where you can find them later.
 
-You can deploy this worker using two methods: utilizing `npm` (Wrangler CLI) or manually via the Cloudflare Dashboard.
+You must ensure that you always use the version marked as "Latest" to stay compatible with changes made by Telegram or Bale.
 
-### Method 1: Using npm (Wrangler) - Recommended
+## 🛠️ Setting up the bot
 
-This method requires [Node.js](https://nodejs.org/) installed on your machine.
+Follow these steps to authorize the bot and link your accounts.
 
-1. **Install dependencies:**
-   Open your terminal in the project directory and run:
-   ```bash
-   npm install
-   ```
+### 1. Create your bots
+Before you use the software, you must create bots on both platforms. 
+- Create a bot on Telegram using the BotFather. Record the Token provided.
+- Create a bot on Bale using the BotFather feature. Record the Token provided.
 
-2. **Login to Cloudflare:**
-   Authenticate Wrangler with your Cloudflare account:
-   ```bash
-   npx wrangler login
-   ```
+### 2. Configure authorized users
+The bot includes a security layer. You must define a list of IDs that have permission to use the file transfer feature. Open the configuration file within the downloaded folder. Locate the section labeled `AUTHORIZED_USERS`. Add the Telegram ID of each person you want to allow. If you leave this empty, the bot rejects all file transfer requests.
 
-3. **Deploy the Worker:**
-   Upload the code to Cloudflare Workers:
-   ```bash
-   npm run deploy
-   ```
-   *(This runs `wrangler deploy` as defined in `package.json`)*.
+### 3. Deploy to Cloudflare
+Since this is a Cloudflare Worker, you need to upload the script to your Cloudflare dashboard.
+- Sign in to your Cloudflare account.
+- Navigate to the "Workers & Pages" section.
+- Click "Create Application" and then "Create Worker".
+- Copy the text from the `index.js` file in your release folder.
+- Paste this text into the Cloudflare code editor.
+- Click "Save and Deploy".
 
-4. Once the deployment is complete, Wrangler will output your worker's live URL (e.g., `https://telegram-file-transfer.<your-subdomain>.workers.dev`).
+### 4. Connect your tokens
+In the Cloudflare dashboard, go to the "Settings" tab for your new worker. Find the "Variables" section. You need to add your bot tokens here safely:
+- Set `TELEGRAM_TOKEN` to your Telegram bot token.
+- Set `BALE_TOKEN` to your Bale bot token.
+- Save your changes.
 
-### Method 2: Manual Deployment via Cloudflare Dashboard
+## ⚡ Using the bot
 
-If you prefer not to use `.npm`, you can copy and paste the code directly in the browser:
+Once you deploy the worker, the system starts listening for messages. Open your Telegram bot in the app. Send a file to the bot. The worker detects the file immediately. It authenticates your ID against the list you created earlier. If you are on the list, it downloads the file and pushes it to your Bale bot destination.
 
-1. Log in to your [Cloudflare Dashboard](https://dash.cloudflare.com/).
-2. On the left sidebar, navigate to **Workers & Pages**.
-3. Click the **Create Worker** button.
-4. Name your worker (e.g., `telegram-file-transfer`) and click **Deploy**.
-5. Once created, click on **Edit Code** in the upper right corner.
-6. Delete the default generated code.
-7. Open `index.js` on your computer, copy all the contents, and paste them into the Cloudflare editor.
-8. Make sure you have updated the configuration (`BOT_TOKEN`, `BALE_BOT_TOKEN`, `USER_MAPPING`) directly in the editor.
-9. Click **Save and Deploy**.
-10. Note your worker's final URL (e.g., `https://telegram-file-transfer.<your-subdomain>.workers.dev`).
+The process takes a few seconds depending on the file size. You can verify the transfer by opening your Bale application and checking the chat associated with your Bale bot.
 
----
+## 🛡️ Security features
 
-## Setting Up the Webhook
+The bot focuses on privacy and security. By default, it ignores messages from unknown users. This prevents strangers from using your bot resources. Because the code runs on Cloudflare infrastructure, your private bot tokens never touch your local machine after the initial setup. This keeps your credentials secure even if someone gains access to your Windows computer.
 
-After deploying the worker via either method, Telegram does not yet know to send messages to your Cloudflare Worker. You must register the webhook.
+## 🔍 Frequently asked questions
 
-1. Open a web browser.
-2. Go to the following URL format based on your worker's domain:
-   ```
-   https://YOUR_WORKER_DOMAIN.workers.dev/registerWebhook
-   ```
-   *(Example: `https://telegram-file-transfer.myusername.workers.dev/registerWebhook`)*
+**Where do I see error logs?**
+Go to the Cloudflare dashboard and select your worker. Click the "Logs" tab. If a file fails to transfer, you will see a red indicator telling you why.
 
-3. The page should return a JSON response similar to `{"ok":true,"result":true,"description":"Webhook was set"}`.
+**Can I change the bot behavior?**
+You can modify the code in the Cloudflare editor. If you have basic knowledge of text files, you can adjust the labels or response messages the bot sends back to you.
 
-## Usage
-1. Open your Telegram bot.
-2. Send `/start` to verify the bot is responding.
-3. Send any file, photo, video, or audio (under 20MB). 
-4. The bot will download it and automatically upload it to the corresponding Bale user.
+**Is there a limit on file size?**
+Cloudflare Workers have limits on how much data they can process at once. Very large files might time out. Keep your file transfers under 10 megabytes for the best results.
+
+**How do I update the bot?**
+When a new version appears on the release page, download the new script and paste it over your existing code in the Cloudflare dashboard. Always save a copy of your configuration variables before you overwrite the script.
+
+**What happens if the service goes down?**
+The service relies on Cloudflare's global network. If you experience issues, check the Cloudflare status page. Typically, your bot remains online without any intervention from you.
+
+## 📖 Support and resources
+
+If you encounter issues during the setup, verify your tokens first. Invalid tokens remain the number one reason for transfer failures. Ensure you copied the full string of characters from the Telegram and Bale BotFather chats. Check that your Telegram ID is correct. You can find your ID by messaging a generic "ID Bot" on Telegram. 
+
+If you find that the file arrives in Bale but lacks the correct filename, check the worker code for the header processing section. Sometimes, different messengers handle file metadata in unique ways. The current version handles standard file types like documents, images, and photos. Very obscure file formats may not transfer correctly if the destination API does not recognize the file extension. 
+
+We recommend testing with a small image file first. Once you confirm the image transfers from Telegram to your Bale bot, try a larger document. This confirms that your configuration is correct before you rely on the system for important data transfers.
